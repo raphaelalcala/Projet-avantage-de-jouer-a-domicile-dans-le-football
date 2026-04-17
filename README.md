@@ -9,8 +9,8 @@ Estimer un modèle logit pour expliquer la probabilité de victoire à domicile 
 - 1 848 matchs
 
 ## Outils
-- Python — nettoyage des données, modèle logit, visualisations
-- R — visualisations ggplot2
+- Python: nettoyage des données, modèle logit, visualisations
+- R: visualisations ggplot2
 
 ## Résultats préliminaires
 - Taux de victoire domicile : 43.8%
