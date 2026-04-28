@@ -4,9 +4,6 @@ import statsmodels.api as sm
 import warnings
 warnings.filterwarnings("ignore")
 
-# ============================================================
-# 1. CHARGEMENT ET FUSION DES 5 SAISONS
-# ============================================================
 
 # Chaque saison est dans un fichier séparé
 fichiers = {
@@ -23,11 +20,8 @@ for saison, fichier in fichiers.items():
     temp["Season"] = saison
     dfs.append(temp)
 
-# On fusionne tous les fichiers en un seul tableau
 df = pd.concat(dfs, ignore_index=True)
 
-# On garde uniquement les colonnes utiles
-# FTHG = buts domicile, FTAG = buts extérieur, FTR = résultat
 df = df[["Season", "Date", "HomeTeam", "AwayTeam",
          "FTHG", "FTAG", "FTR"]].copy()
 
@@ -36,10 +30,6 @@ df = df.sort_values(["Season", "Date"]).reset_index(drop=True)
 
 print(f"Nombre de matchs : {len(df)}")
 print(df["Season"].value_counts().sort_index())
-
-# ============================================================
-# 2. CRÉATION DES VARIABLES
-# ============================================================
 
 # Variable cible : 1 si victoire domicile, 0 sinon
 df["home_win"] = (df["FTR"] == "H").astype(int)
@@ -51,7 +41,6 @@ df["home_win"] = (df["FTR"] == "H").astype(int)
 df["covid"] = 0
 df.loc[df["Season"] == "2020-2021", "covid"] = 1
 
-# Points cumulés au classement (avant chaque match)
 home = df[["Season", "Date", "HomeTeam", "FTHG", "FTAG", "FTR"]].copy()
 home["pts"] = home["FTR"].map({"H": 3, "D": 1, "A": 0})
 home = home.rename(columns={"HomeTeam": "team"})
@@ -104,10 +93,6 @@ df = df.merge(
     on=["Date", "AwayTeam"], how="left"
 )
 
-# ============================================================
-# 3. DATASET FINAL
-# ============================================================
-
 variables = ["covid", "home_form", "away_form", "ranking_diff"]
 df_model = df[variables + ["home_win", "Season"]].dropna().reset_index(drop=True)
 
@@ -119,9 +104,6 @@ print(f"Taux victoire domicile avec Covid : {df_model[df_model['covid']==1]['hom
 df_model.to_csv("matches_model_L1.csv", index=False)
 print("\nFichier sauvegardé : matches_model_L1.csv")
 
-# ============================================================
-# 4. MODÈLE LOGIT
-# ============================================================
 
 X = sm.add_constant(df_model[variables])
 y = df_model["home_win"]
