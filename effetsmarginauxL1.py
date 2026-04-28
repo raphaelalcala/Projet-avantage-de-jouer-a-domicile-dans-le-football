@@ -1,7 +1,6 @@
 import pandas as pd
 import statsmodels.api as sm
 
-# Recharger les données Ligue 1
 df_model = pd.read_csv("matches_model_L1.csv")
 
 variables = ["covid", "home_form", "away_form", "ranking_diff"]
@@ -14,7 +13,6 @@ print(modele.summary())
 print("\n--- EFFETS MARGINAUX ---")
 print(modele.get_margeff().summary())
 
-# Sauvegarder les résultats
 with open("resultats_L1.txt", "w") as f:
     f.write(modele.summary().as_text())
     f.write("\n\n--- EFFETS MARGINAUX ---\n")
