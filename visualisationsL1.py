@@ -7,13 +7,11 @@ import matplotlib.patches as mpatches
 df = pd.read_csv("matches_model_L1.csv")
 df_model = pd.read_csv("matches_model_L1.csv")
 
-# reestimer le modele pour avoir l'objet "modele"
 variables = ["covid", "home_form", "away_form", "ranking_diff"]
 X = sm.add_constant(df_model[variables])
 y = df_model["home_win"]
 modele = sm.Logit(y, X).fit(disp=0)
 
-# Couleurs utilisées dans tous les graphiques
 VERT  = "#1D9E75"   # public présent
 ROUGE = "#D85A30"   # huis clos Covid
 
@@ -21,9 +19,7 @@ fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 fig.suptitle("Analyse de l'avantage à domicile en Ligue 1 (2017–2022)",
              fontsize=15, fontweight="bold", y=1.01)
 
-# ============================================================
 # GRAPHIQUE 1 : Taux de victoire domicile par saison
-# ============================================================
 ax1 = axes[0, 0]
 
 taux_par_saison = df_model.groupby("Season")["home_win"].mean().reindex(["2017-2018", "2018-2019", "2019-2020", "2020-2021", "2021-2022"])
@@ -45,9 +41,7 @@ ax1.set_title("1. Taux de victoire domicile par saison", fontweight="bold")
 ax1.legend(handles=[mpatches.Patch(color=VERT, label="Public présent"),
                     mpatches.Patch(color=ROUGE, label="Huis clos")], fontsize=9)
 
-# ============================================================
 # GRAPHIQUE 2 : Effets marginaux
-# ============================================================
 ax2 = axes[0, 1]
 
 margins     = modele.get_margeff()
@@ -72,13 +66,11 @@ for val, barre in zip(effets, barres2):
     decalage = 0.3 if val >= 0 else -0.3
     ax2.text(val * 100 + decalage, barre.get_y() + barre.get_height() / 2,
              f"{val*100:+.2f} pp", va="center", fontsize=9, fontweight="bold")
-
-# ============================================================
+  
 # GRAPHIQUE 3 : Courbe logistique (probabilité prédite)
-# ============================================================
+
 ax3 = axes[1, 0]
 
-# On fait varier l'écart au classement, les autres variables restent à leur moyenne
 ecart_range  = np.linspace(df_model["ranking_diff"].min(), df_model["ranking_diff"].max(), 200)
 moy_hf = df_model["home_form"].mean()
 moy_af = df_model["away_form"].mean()
@@ -105,9 +97,7 @@ ax3.set_title("3. Probabilité prédite selon le niveau des équipes", fontweigh
 ax3.legend()
 ax3.set_ylim(0, 100)
 
-# ============================================================
 # GRAPHIQUE 4 : Distribution de la forme domicile
-# ============================================================
 ax4 = axes[1, 1]
 
 forme_victoire = df_model[df_model["home_win"] == 1]["home_form"]
