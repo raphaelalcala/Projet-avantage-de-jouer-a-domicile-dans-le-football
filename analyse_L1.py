@@ -113,3 +113,32 @@ print(modele.summary())
 
 print("\n--- EFFETS MARGINAUX ---")
 print(modele.get_margeff().summary())
+
+
+Nombre de matchs : 1799
+2017-2018    380
+2018-2019    380
+2019-2020    279
+2020-2021    380
+2021-2022    380
+
+Matchs dans le modèle : 1746
+Taux victoire domicile : 43.1%
+Taux victoire domicile sans Covid : 44.7%
+Taux victoire domicile avec Covid : 36.8%
+
+Fichier sauvegardé : matches_model_L1.csv
+
+                           Logit Regression Results
+==============================================================================
+Dep. Variable:               home_win   No. Observations:                 1746
+Pseudo R-squ.:                 0.06391   Log-Likelihood:                -1117.1
+LLR p-value:                 5.795e-32
+================================================================================
+                   coef    std err          z      P>|z|
+--------------------------------------------------------------------------------
+const           -0.2880      0.147     -1.965      0.049
+covid           -0.3791      0.127     -2.994      0.003
+home_form        0.1277      0.082      1.561      0.119
+away_form       -0.0701      0.079     -0.883      0.378
+ranking_diff     0.0436      0.005      8.057      0.000
