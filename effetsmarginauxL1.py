@@ -19,3 +19,9 @@ with open("resultats_L1.txt", "w") as f:
     f.write(modele.get_margeff().summary().as_text())
 
 print("\nRésultats sauvegardés : resultats_L1.txt")
+
+--- EFFETS MARGINAUX ---
+covid           -0.0852      0.028     -3.022      0.003
+home_form        0.0287      0.018      1.565      0.117
+away_form       -0.0158      0.018     -0.883      0.377
+ranking_diff     0.0098      0.001      8.648      0.000
