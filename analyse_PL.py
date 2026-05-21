@@ -97,3 +97,26 @@ y = df_model["home_win"]
 
 modele = sm.Logit(y, X).fit()
 print(modele.summary())
+
+Nombre de matchs : 1900
+
+Matchs dans le modèle : 1848
+Taux victoire domicile : 43.8%
+Taux victoire domicile sans Covid : 45.1%
+Taux victoire domicile avec Covid : 40.3%
+
+Fichier sauvegardé : matches_model_PL.csv
+
+                           Logit Regression Results
+==============================================================================
+Dep. Variable:               home_win   No. Observations:                 1848
+Pseudo R-squ.:                 0.07880   Log-Likelihood:                -1167.0
+LLR p-value:                 4.470e-42
+================================================================================
+                   coef    std err          z      P>|z|
+--------------------------------------------------------------------------------
+const           -0.1584      0.138     -1.149      0.250
+covid           -0.2276      0.114     -1.992      0.046
+home_form        0.2102      0.077      2.743      0.006
+away_form       -0.2434      0.078     -3.136      0.002
+ranking_diff     0.0342      0.004      7.772      0.000
